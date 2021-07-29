@@ -13,21 +13,18 @@ namespace Calculator
         public MainWindow()
         {
             InitializeComponent();
-            Console.WriteLine(Eval.Execute("2+6*8"));
-            // outputField.Content = calculate_num(2, "+", 3);
         }
 
-        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        private void FieldHandler(object sender, KeyEventArgs e)
         {
             if (inputField.Text == "Please start typing...")
             {
                 inputField.Text = "";
             }
-            else if (inputField.Text == "")
-            {
-                inputField.Text = "Please start typing...";
-            }
+        }
 
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
             string Result = outputField.Text;
 
             try
@@ -96,11 +93,9 @@ namespace Calculator
             inputField.Text = text;
         }
 
-        private void btnMltp_Click(object sender, RoutedEventArgs e)
+        private void btnCopy_Click(object sender, RoutedEventArgs e)
         {
-            string text;
-            text = $"{inputField.Text}*";
-            inputField.Text = text;
+            Clipboard.SetText(outputField.Text);
         }
 
         private void btn1_Click(object sender, RoutedEventArgs e)
