@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Z.Expressions;
 
 namespace Calculator
 {
@@ -23,8 +13,37 @@ namespace Calculator
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine(Eval.Execute("2+6*8"));
+            // outputField.Content = calculate_num(2, "+", 3);
         }
 
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (inputField.Text == "Please start typing...")
+            {
+                inputField.Text = "";
+            }
+            else if (inputField.Text == "")
+            {
+                inputField.Text = "Please start typing...";
+            }
+
+            string Result = outputField.Text;
+
+            try
+            {
+                object NumPlaceholder = Eval.Execute(inputField.Text);
+                if (NumPlaceholder != null)
+                {
+                    Result = NumPlaceholder.ToString();
+                }
+            }
+            catch
+            {
+                Result = "";                
+            }
+            outputField.Text = Result;
+        }
         private void calc_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Button has been pressed");
@@ -107,31 +126,8 @@ namespace Calculator
 
         private void btnEql_Click(object sender, RoutedEventArgs e)
         {
-            // Sum all numbers in inputField
-        }
-    }
-    public class TextInputToVisibilityConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            // Always test MultiValueConverter inputs for non-null
-            // (to avoid crash bugs for views in the designer)
-            if (values[0] is bool && values[1] is bool)
-            {
-                bool hasText = !(bool)values[0];
-                bool hasFocus = (bool)values[1];
-
-                if (hasFocus || hasText)
-                    return Visibility.Collapsed;
-            }
-
-            return Visibility.Visible;
-        }
-
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
+            // Calculate all numbers in inputField
+            // Set outputField.Content to result
         }
     }
 }
